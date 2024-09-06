@@ -91,7 +91,7 @@ let aliveCol = [yellowCol,greenCol,creamCol,blackCol];
       }
     }
   }
-
+  
   let next = make2DArray(cols, rows);
 
   // Compute next based on grid
