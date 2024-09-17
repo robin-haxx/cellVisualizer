@@ -18,6 +18,7 @@
             margin: 5;
             background: #f0f0f0;
             opacity: 0.0;
+            transition : background-color 1s ease;
             -webkit-transition: opacity 0.2s ease;
             -moz-transition: opacity 0.2s ease;
             -o-transition: opacity 0.2s ease;
@@ -57,13 +58,16 @@
 
         <div class="inner" id="controls" height="500px">
             <table>
+                <!-- <tr>
+                    <td>DEBUG INFO: changing track before running visuals creates lag.</td>
+                    <!-- <td id="wordsContainer"></td> -->
+                </tr> DEBUG INFO: changing track before running visuals creates lag. </td>
+
                 <tr>
-                    <td>Words</td>
-                    <td id="wordsContainer"></td>
-                </tr>
-                <tr>
+                    
                     <td>Vocals</td>
                     <td id="slider1Container"></td>
+                    
                 </tr>
                 <tr>
                     <td>Drum</td>
@@ -80,6 +84,10 @@
                 <tr>
                     <td></td>
                     <td id="button1Container"></td>
+                </tr>
+                <tr></tr>
+                    <td></td>
+                    <td id="button2Container"></td>
                 </tr>
             </table>
         </div>
