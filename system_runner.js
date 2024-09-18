@@ -179,6 +179,9 @@ function setup() {
   }
 }
 
+
+
+
 function switchRunMode() {
   songID = songSelect.selected()//cheeky get ahead of user reload
   song.stop();
@@ -231,6 +234,8 @@ function switchRunMode() {
 }
 
 function draw() {
+
+
 
   if (songSelect.selected() != songID){
     song.stop();
