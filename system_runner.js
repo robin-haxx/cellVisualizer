@@ -1,4 +1,7 @@
 // another one of those snippets I figured is less computationally expensive to just run wherever it's safe to
+
+
+
 function setupVolumes(){
   vol1 = [];
   vol2 = [];
@@ -14,6 +17,37 @@ function setupVolumes(){
     vol4.push(float(roww[4]));
   }
 }
+
+
+
+// function swapCacheToSecond(){
+//   for (let i = 0; i < 8; i++){
+//     if (i = songID){
+//       continue;
+//     }
+//     songs[i] = " ";
+//     tables [i] = " ";
+//   }
+//   for (let i = 8; i < 10; i++){
+//     console.log("second stage: loading song " + i);
+    
+//   }
+// }
+
+// function swapCacheToFirst(){
+//   for (let i = 8; i < songCount; i++){
+//     songs[i] = " ";
+//     tables [i] = " ";
+//   }
+//   for (let i = 0; i < 8; i++){
+//     console.log("second stage: loading song " + i);
+//     songs.push(loadSound(`sound_assets/song_${i}.mp3`));
+//     tables.push(loadTable(`sound_assets/volumes_${i}.csv`, 'csv'));
+//   }
+// }
+
+let playlist = Math.floor(Math.random()); //mult by 2 when playlist 2 works
+let firstLoad = false;
 
 var canvasWidth = 1920;
 var canvasHeight = 1080;
@@ -34,8 +68,8 @@ let songID = 0;      // ID to fetch song files
 let table;
 let words;
 
-let songs = [];   // stores all loaded song .mp3s
-let tables = [];  // stores volumes for all songs
+let songs = new Array(songCount);   // stores all loaded song .mp3s
+let tables = new Array(songCount);  // stores volumes for all songs
 
 
 // function songLoadedError() {
@@ -66,28 +100,54 @@ let tables = [];  // stores volumes for all songs
 
 //  use songID to set current
 //  make loop scalable later
+let playBuffer = 0;
 
 function preload() {
+  console.log ("loading playlist #" + (playlist+1));
+  if (playlist == 1){
+    playBuffer += (8 * playlist);
+  }
 
-  for (let i = 0; i < songCount; i++){
+  for (let i = 0 + playBuffer; i < 5 + playBuffer; i++){
+    
     console.log("loading song " + i);
-    songs.push(loadSound(`sound_assets/song_${i}.mp3`));
-    tables.push(loadTable(`sound_assets/volumes_${i}.csv`, 'csv'));
+    songs[i]  = (loadSound(`sound_assets/song_${i}.mp3`));
+    tables[i] = (loadTable(`sound_assets/volumes_${i}.csv`, 'csv'));
+    
+    
     
   }
+  songID += playBuffer;
   console.log("preloadID:" + songID);
+  console.log("writing table data for song " + songID);
   table = tables [songID];
+  console.log("writing song data for song " + songID);
   song = songs[songID];  
-  
+  console.log("loading words " + songID);
   words = loadStrings('words.txt'); //anything containing "words" is deprecated, just empty variables, will remove when I can be bothered
+  console.log("preload complete");
 }
 
 let volumes = [];
 let volume_length = 0;
 
 function setup() {
+  console.log("setting up canvas");
   main_canvas = createCanvas(canvasSize[0], canvasSize[1]);
   main_canvas.parent('canvasContainer');
+
+  for (let i = 5 + playBuffer; i < 8 + playBuffer; i++){
+    
+    
+    console.log("loading song " + i);
+    songs[i] =  (loadSound(`sound_assets/song_${i}.mp3`));
+    tables[i] = (loadTable(`sound_assets/volumes_${i}.csv`, 'csv'));
+    
+    
+    
+  }
+
+
   
   frameRate(60);
   angleMode(DEGREES);
@@ -145,14 +205,18 @@ function setup() {
 
   songSelect = createSelect('song');
   songSelect.parent('button2Container');
+if (playlist == 0){
   songSelect.option('Dancing on the Edge - G Jones',              0);//track id # switches out file name
   songSelect.option('Apple - Charli Xcx',                         1);
   songSelect.option('Myth (Beach House) - The Casket Lottery',    2);
   songSelect.option('Beach House - Lazuli',                       3);
-  songSelect.option('ODESZA - Kusanagi',                          4);
+  songSelect.option('Porter Robinson - Hollowheart',              4);
   songSelect.option('ODESZA & Naomi Wild - Higher Ground',        5);
-  songSelect.option('ODESZA - Sun Models',                        6);
+  songSelect.option('Tame Impala - Nangs',                        6);
   songSelect.option('Beird...',                                   7);
+  
+} else if (playlist == 1){
+
   songSelect.option('Gorillaz - Feel Good Inc.',                  8);
   songSelect.option('CHVRCHES - Gun',                             9);
   songSelect.option('Tame Impala - Nangs',                        10);
@@ -160,6 +224,8 @@ function setup() {
   songSelect.option('Porter Robinson - Hollowheart',              12);
   songSelect.option('Porter Robinson - Goodbye to a World',       13);
   songSelect.option('GLADoS - Want You Gone',                     14);
+  
+}
   //songSelect.selected(0);
 
   setupVolumes();
@@ -183,9 +249,11 @@ function setup() {
 
 
 function switchRunMode() {
+
   songID = songSelect.selected()//cheeky get ahead of user reload
   song.stop();
   songIsPlaying = false;
+
   setupVolumes();
 
   table = tables[songID];
@@ -235,12 +303,14 @@ function switchRunMode() {
 
 function draw() {
 
+  // console.log (typeof songs[7]);
+  // console.log (typeof songs[8]);
 
 
   if (songSelect.selected() != songID){
     song.stop();
     songIsPlaying = false;
-    
+
     switchRunMode();
     song.stop();
     songIsPlaying = false;
