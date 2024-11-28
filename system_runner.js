@@ -198,10 +198,10 @@ function setup() {
 
   styleSelect = createSelect('style');
   styleSelect.parent('button2Container');
-  styleSelect.option('PATHS live',    0);
-  styleSelect.option('Worlds',    3);
-  styleSelect.option('A.G. made it',  1);
-  styleSelect.option('Teen Dream',    2);
+  styleSelect.option('PATHS live (G Jones)',    0);
+  styleSelect.option('Worlds (Porter Robinson)',    3);
+  styleSelect.option('A.G. made it (Charli Xcx)',  1);
+  styleSelect.option('Teen Dream(Beach House)',    2);
   
   styleSelect.selected('PATHS live'    );
 

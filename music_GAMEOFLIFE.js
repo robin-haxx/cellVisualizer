@@ -419,7 +419,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     }
   } else if (colourTheme == 3){
     //for the hollowheart style, maybe experiment with a tertiary "displacement" state?
-    sceneDuration = 540;
+    sceneDuration = 400;
     maxRes = 40;
     //resolution = 10;
 
@@ -432,7 +432,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       phaseCheck = true;
       resolution += 10;
       if (resolution >= maxRes) {
-        resolution = 10;
+        resolution = 20;
       }
       current++;
       if (current >= aliveCol.length) {
