@@ -54,6 +54,9 @@ let colWhite = [255, 255, 255];
 let colCream = [255, 255, 230];
 let colBlack = [0, 0, 0];
 let colYellow = [213, 219, 15];
+let colLPur = [164,106,154];
+let colDPur = [90,50,85];
+let colSky = [161,184,218];
 
 //let aliveCol = [colGreen,colYellow,colBlack,colCream];
 let deadCol = colBlack;
@@ -414,6 +417,90 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     ) {
       grid = next;
     }
+  } else if (colourTheme == 3){
+    //for the hollowheart style, maybe experiment with a tertiary "displacement" state?
+    sceneDuration = 540;
+    maxRes = 40;
+    //resolution = 10;
+
+    aliveCol = [colLPur, colDPur, colBlue, colWhite];
+    deadCol = colSky;
+
+    let resMap = map(other, 0, 100, 80, 10);
+
+    if (counter % sceneDuration == 0 && counter != 0) {
+      phaseCheck = true;
+      resolution += 10;
+      if (resolution >= maxRes) {
+        resolution = 10;
+      }
+      current++;
+      if (current >= aliveCol.length) {
+        current = 0;
+      }
+    }
+
+    if (firstRun || phaseCheck) {
+      cols = round(canvasWidth / resolution);
+      rows = round(canvasHeight / resolution);
+      grid = make2DArray(cols, rows);
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          grid[i][j] = Math.floor(random(2));
+        }
+      }
+      firstRun = false;
+      phaseCheck = false;
+    }
+    let bassFade = map(bass, 0, 100, 100, 0, true);
+    deadCol.push(bassFade);
+    background(deadCol);
+    deadCol.pop();
+
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        let x = i * resolution;
+        let y = j * resolution;
+        if (grid[i][j] == 1) {
+          fill(aliveCol[current]);
+          stroke(whiteColAlpha);
+          strokeWeight(drum / 10);
+          rect(x, y, resolution - 1, resolution - 1, resolution * .1);
+          noFill();
+          rect(x*1.01, y*1.01, resolution - 1, resolution - 1, resolution * .1);
+        }
+      }
+    }
+
+    let next = make2DArray(cols, rows);
+
+    // Compute next based on grid
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        let state = grid[i][j];
+        // Count live neighbors!
+        let sum = 0;
+        let neighbours = countNeighbours(grid, i, j);
+
+        if (state == 0 && neighbours == 3) {
+          next[i][j] = 1;
+        } else if (state == 1 && (neighbours < 2 || neighbours > 3)) {
+          next[i][j] = 0;
+        } else {
+          next[i][j] = state;
+        }
+      }
+    }
+    // iterates the GOL based on a rate that is the product of audio activity
+    if (
+      (drum >= 40 && counter % 5 == 0) ||
+      (vocal >= 45 && counter % 15 == 0) ||
+      (bass >= 60 && counter % 20 == 0) ||
+      (other >= 65 && counter % 25 == 0)
+    ) {
+      grid = next;
+    }
+  
   } else {
     console.log(`invalid style option: ${colourTheme}`);
   }

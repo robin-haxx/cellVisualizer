@@ -49,12 +49,12 @@ function setupVolumes(){
 let playlist = Math.floor(Math.random()); //mult by 2 when playlist 2 works
 let firstLoad = false;
 
-var canvasWidth = 1920;
-var canvasHeight = 1080;
+var canvasWidth = 800;
+var canvasHeight = 600;
 var canvasSize = [canvasWidth,canvasHeight];
 
 let mainCanvas;
-let songCount = 15 // UPDATE THIS AND THIS ONLY AS YOU ADD MORE SONGS. 
+let songCount = 5 // UPDATE THIS AND THIS ONLY AS YOU ADD MORE SONGS. 
 let textInput;
 let slider1, slider2, slider3, slider4;
 let songButton;
@@ -136,7 +136,7 @@ function setup() {
   main_canvas = createCanvas(canvasSize[0], canvasSize[1]);
   main_canvas.parent('canvasContainer');
 
-  for (let i = 5 + playBuffer; i < 8 + playBuffer; i++){
+  for (let i = 5 + playBuffer; i < 1 + playBuffer; i++){
     
     
     console.log("loading song " + i);
@@ -198,10 +198,11 @@ function setup() {
 
   styleSelect = createSelect('style');
   styleSelect.parent('button2Container');
-  styleSelect.option('PATHS live',    0);
+  styleSelect.option('test',    3);
   styleSelect.option('A.G. made it',  1);
   styleSelect.option('Teen Dream',    2);
-  styleSelect.selected('PATHS live'    );
+  styleSelect.option('PATHS live',    0);
+  styleSelect.selected('test'    );
 
   songSelect = createSelect('song');
   songSelect.parent('button2Container');
@@ -211,9 +212,9 @@ if (playlist == 0){
   songSelect.option('Myth (Beach House) - The Casket Lottery',    2);
   songSelect.option('Beach House - Lazuli',                       3);
   songSelect.option('Porter Robinson - Hollowheart',              4);
-  songSelect.option('ODESZA & Naomi Wild - Higher Ground',        5);
-  songSelect.option('Tame Impala - Nangs',                        6);
-  songSelect.option('Beird...',                                   7);
+  // songSelect.option('ODESZA & Naomi Wild - Higher Ground',        5);
+  // songSelect.option('Tame Impala - Nangs',                        6);
+  // songSelect.option('Beird...',                                   7);
   
 } else if (playlist == 1){
 
