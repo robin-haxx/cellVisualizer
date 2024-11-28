@@ -198,11 +198,12 @@ function setup() {
 
   styleSelect = createSelect('style');
   styleSelect.parent('button2Container');
-  styleSelect.option('test',    3);
-  styleSelect.option('A.G. made it',  1);
-  styleSelect.option('Teen Dream',    2);
   styleSelect.option('PATHS live',    0);
-  styleSelect.selected('test'    );
+  styleSelect.option('Worlds',    1);
+  styleSelect.option('A.G. made it',  2);
+  styleSelect.option('Teen Dream',    3);
+  
+  styleSelect.selected('PATHS live'    );
 
   songSelect = createSelect('song');
   songSelect.parent('button2Container');
